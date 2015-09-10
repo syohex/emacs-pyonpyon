@@ -2,6 +2,8 @@
 
 あぁ^～Emacsがぴょんぴょんするんじゃぁ^～
 
+![pyonpyon](image/pyonpyon.gif)
+
 ## Usage
 
 #### `M-x pyonpyon`
