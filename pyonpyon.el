@@ -29,11 +29,12 @@
   "Emacs ga pyonpyon surunja-"
   :group 'frame)
 
-(defcustom pyonpyon-gravity (* 0.017 2) ;;2.4
+(defcustom pyonpyon-gravity (* 0.017 2)
   "Gravity")
 
 (defvar pyonpyon--minimum-y
   (cond ((equal (getenv "XDG_CURRENT_DESKTOP") "XFCE") 50)
+        ((eq system-type 'darwin) 15)
         (t 0)))
 
 (defvar pyonpyon--timer nil)
