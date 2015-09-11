@@ -25,12 +25,13 @@
 
 (require 'cl-lib)
 
-(defcustom pyonpyon nil
+(defgroup pyonpyon nil
   "Emacs ga pyonpyon surunja-"
   :group 'frame)
 
-(defcustom pyonpyon-gravity (* 0.017 2)
-  "Gravity")
+(defcustom pyonpyon-speed (* 0.017 2)
+  "Speed"
+  :group 'pyonpyon)
 
 (defvar pyonpyon--minimum-y
   (cond ((equal (getenv "XDG_CURRENT_DESKTOP") "XFCE") 50)
@@ -44,8 +45,7 @@
 (defvar pyonpyon--xpos 0)
 (defvar pyonpyon--ypos 0)
 (defvar pyonpyon--x-velocity 0)
-(defvar pyonpyon--y-velocity 0)
-(defvar pyonpyon--unit-v 0)
+(defvar pyonpyon--y-radian 0)
 
 (defun pyonpyon--display-size-x-window ()
   (with-temp-buffer
@@ -90,8 +90,8 @@
            (setq pyonpyon--xpos next)))))
 
 (defun pyonpyon--update-ypos ()
-  (setq pyonpyon--ypos (* pyonpyon--max-y (abs (sin (* pyonpyon--y-velocity 4)))))
-  (cl-incf pyonpyon--y-velocity pyonpyon-gravity))
+  (setq pyonpyon--ypos (* pyonpyon--max-y (abs (sin (* pyonpyon--y-radian 4)))))
+  (cl-incf pyonpyon--y-radian pyonpyon-speed))
 
 (defun pyonpyon--move-frame ()
   (pyonpyon--update-xpos)
@@ -104,13 +104,10 @@
   (let* ((max-xy (pyonpyon--display-size))
          (max-x (car max-xy))
          (max-y (cdr max-xy))
-         (unit-h (/ max-x 133.0))
-         (unit-v (sqrt (* max-y pyonpyon-gravity 2))))
+         (unit-h (/ max-x 133.0)))
     (setq pyonpyon--max-x max-x
           pyonpyon--max-y (- max-y (frame-pixel-height) 50)
-          pyonpyon--x-velocity unit-h
-          pyonpyon--y-velocity unit-v
-          pyonpyon--unit-v unit-v)
+          pyonpyon--x-velocity unit-h)
     (setq pyonpyon--xpos 0 pyonpyon--ypos 300)))
 
 ;;;###autoload
